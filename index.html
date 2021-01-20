@@ -1,80 +1,84 @@
 <!DOCTYPE html>
 <html lang="et">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kehamassiindeksi kalkulaator</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="p-5 mt-5 mx-auto border border-light rounded shadow">
-            <h1 class="display-4">KMI <small>kalkulaator</small></h1>
-            <div class="mt-4">
-                <span id="weight-indicator" class="badge badge-primary">Kehakaal 50 kg</span>
-                <input id="weight-slider" class="custom-range" type="range" min="1" max="250" step=".1" value="50">
-                <span id="height-indicator" class="badge badge-info">Pikkus 150 cm</span>
-                <input id="height-slider" class="custom-range" type="range" min="1" max="300" step=".5" value="150">
-            </div>
-            <div class="mt-3">
-                <span>Sinu KMI:</span>
-                <span id="bmi-result" class="font-weight-bold">22.22</span>
-            </div>
+      <div class="p-5 mt-5 mx-auto border border-light rounded shadow">
+        <h1 class="display-4">KMI <small>kalkulaator</small></h1>
+        <div class="mt-4">
+          <span id="weight-indicator" class="badge badge-primary">Kehakaal 50 kg</span>
+          <input id="weight-slider" class="custom-range" type="range" min="1" max="250" step=".1" value="50" />
+          <span id="height-indicator" class="badge badge-info">Pikkus 150 cm</span>
+          <input id="height-slider" class="custom-range" type="range" min="1" max="300" step=".5" value="150" />
         </div>
+        <div class="mt-3">
+          <span>Sinu KMI:</span>
+          <span id="bmi-result" class="font-weight-bold">22.22</span>
+        </div>
+      </div>
     </div>
 
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
 
     <script>
-        const heightRangeSliderElement = document.getElementById('height-slider');
-        const weightRangeSliderElement = document.getElementById('weight-slider');
-        const heightIndicatorElement = document.getElementById('height-indicator');
-        const weightIndicatorElement = document.getElementById('weight-indicator');
-        const calculationResultElement = document.getElementById('bmi-result');
+      const heightRangeSliderElement = document.getElementById('height-slider');
+      const weightRangeSliderElement = document.getElementById('weight-slider');
+      const heightIndicatorElement = document.getElementById('height-indicator');
+      const weightIndicatorElement = document.getElementById('weight-indicator');
+      const calculationResultElement = document.getElementById('bmi-result');
 
-        // TODO: must reload calculator with recent values from localStorage
+      // TODO: must reload calculator with recent values from localStorage
 
-        document.getElementById('weight-slider').addEventListener('input', (event) => {
-            const currentWeight = parseFloat(event.target.value);
-            weightIndicatorElement.textContent = 'Kehakaal' + ' ' + currentWeight + ' ' + 'kg';
-            calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value, weightRangeSliderElement.value);
-            localStorage.setItem("variableName","Text");
-            // TODO: persist slider current values in localStorage using one of the functions below
-        });
+      document.getElementById('weight-slider').addEventListener('input', (event) => {
+        const currentWeight = parseFloat(event.target.value);
+        weightIndicatorElement.textContent = 'Kehakaal' + ' ' + currentWeight + ' ' + 'kg';
+        calculationResultElement.textContent = calculateBMI(
+          heightRangeSliderElement.value,
+          weightRangeSliderElement.value
+        );
 
-        document.getElementById('height-slider').addEventListener('input', (event) => {
-            const currentHeight = parseFloat(event.target.value);
-            heightIndicatorElement.textContent = 'Pikkus' + ' ' + currentHeight + ' ' + 'cm';
-            calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value, weightRangeSliderElement.value);
-            
-            // TODO: persist slider current values in localStorage using one of the functions below
-        });
+        // TODO: persist slider current values in localStorage using one of the functions below
+      });
 
-        const heightInMeters = heightRangeSliderElement.value;
-        const weightInKilograms = weightRangeSliderElement.value;
-        const BMI = calculateBMI();
+      document.getElementById('height-slider').addEventListener('input', (event) => {
+        const currentHeight = parseFloat(event.target.value);
+        heightIndicatorElement.textContent = 'Pikkus' + ' ' + currentHeight + ' ' + 'cm';
+        calculationResultElement.textContent = calculateBMI(
+          heightRangeSliderElement.value,
+          weightRangeSliderElement.value
+        );
 
-        function calculateBMI(heightInMeters, weightInKilograms) {
-            return (weightInKilograms / Math.pow(heightInMeters, 2) * 10000).toFixed(2);
+        // TODO: persist slider current values in localStorage using one of the functions below
+      });
+
+      const heightInMeters = heightRangeSliderElement.value / 100;
+      const weightInKilograms = weightRangeSliderElement.value;
+      const BMI = calculateBMI();
+
+      function calculateBMI(heightInMeters, weightInKilograms) {
+        return ((weightInKilograms / Math.pow(heightInMeters, 2)) * 10000).toFixed(2);
+      }
+
+      function reloadRecentValuesFromLocalStorage() {
+        const valuesFromLocalstorage = localStorage.getItem('lastSelectedValues');
+        if (valuesFromLocalstorage !== null) {
+          const { heightSliderValue, weightSliderValue } = JSON.parse(valuesFromLocalstorage);
+          // TODO: set the HTML element values in DOM accordingly (indicators, calculation result)
         }
+      }
 
-        function reloadRecentValuesFromLocalStorage() {
-            const valuesFromLocalstorage = localStorage.getItem('lastSelectedValues');
-            if (valuesFromLocalstorage !== null) {
-                const { heightSliderValue, weightSliderValue } = JSON.parse(valuesFromLocalstorage);
-                // TODO: set the HTML element values in DOM accordingly (indicators, calculation result)
-            }
-        }
-
-        function persistSelection(heightSliderValue, weightSliderValue) {
-            // TODO: persist received parameter values as JSON string in localStorage
-            // For example save the JSON under a key named "lastSelectedValues" 
-            // Example of the JSON structure:  {"heightSliderValue":183,"weightSliderValue":86.1}
-        }
+      function persistSelection(heightSliderValue, weightSliderValue) {
+        // TODO: persist received parameter values as JSON string in localStorage
+        // For example save the JSON under a key named "lastSelectedValues"
+        // Example of the JSON structure:  {"heightSliderValue":183,"weightSliderValue":86.1}
+      }
     </script>
-</body>
-
+  </body>
 </html>
