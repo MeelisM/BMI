@@ -60,7 +60,6 @@
 
       const heightInMeters = heightRangeSliderElement.value / 100;
       const weightInKilograms = weightRangeSliderElement.value;
-      const BMI = calculateBMI();
 
       function calculateBMI(heightInMeters, weightInKilograms) {
         return ((weightInKilograms / Math.pow(heightInMeters, 2)) * 10000).toFixed(2);
