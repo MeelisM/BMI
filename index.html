@@ -38,23 +38,20 @@
 
       document.getElementById('weight-slider').addEventListener('input', (event) => {
         const currentWeight = parseFloat(event.target.value);
-        weightIndicatorElement.textContent = 'Kehakaal' + ' ' + currentWeight + ' ' + 'kg';
-        calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value, weightRangeSliderElement.value);
-        persistSelection();
+        weightIndicatorElement.textContent = `Kehakaal ${currentWeight} kg`;
+        calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value / 100, weightRangeSliderElement.value);
+        persistSelection(heightRangeSliderElement.value, weightRangeSliderElement.value, calculationResultElement.textContent);
       });
 
       document.getElementById('height-slider').addEventListener('input', (event) => {
         const currentHeight = parseFloat(event.target.value);
-        heightIndicatorElement.textContent = 'Pikkus' + ' ' + currentHeight + ' ' + 'cm';
-        calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value, weightRangeSliderElement.value);
-        persistSelection();
+        heightIndicatorElement.textContent = `Pikkus ${currentHeight} cm`;
+        calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value / 100, weightRangeSliderElement.value);
+        persistSelection(heightRangeSliderElement.value, weightRangeSliderElement.value, calculationResultElement.textContent);
       });
 
-      const heightInMeters = heightRangeSliderElement.value / 100;
-      const weightInKilograms = weightRangeSliderElement.value;
-
       function calculateBMI(heightInMeters, weightInKilograms) {
-        return ((weightInKilograms / Math.pow(heightInMeters, 2)) * 10000).toFixed(2);
+        return (weightInKilograms / Math.pow(heightInMeters, 2)).toFixed(2);
       }
 
       function reloadRecentValuesFromLocalStorage() {
@@ -62,8 +59,8 @@
         if (valuesFromLocalstorage !== null) {
           const { heightSliderValue, weightSliderValue, calculationResultValue } = JSON.parse(valuesFromLocalstorage);
 
-          heightIndicatorElement.textContent = 'Pikkus' + ' ' + heightSliderValue + ' ' + 'cm';
-          weightIndicatorElement.textContent = 'Kehakaal' + ' ' + weightSliderValue + ' ' + 'kg';
+          heightIndicatorElement.textContent = `Pikkus ${heightSliderValue} cm`;
+          weightIndicatorElement.textContent = `Kehakaal ${weightSliderValue} kg`;
           weightRangeSliderElement.value = weightSliderValue;
           heightRangeSliderElement.value = heightSliderValue;
           calculationResultElement.textContent = calculationResultValue;
@@ -71,10 +68,6 @@
       }
 
       function persistSelection(heightSliderValue, weightSliderValue, calculationResultValue) {
-        calculationResultValue = calculationResultElement.textContent;
-        heightSliderValue = heightRangeSliderElement.value;
-        weightSliderValue = weightRangeSliderElement.value;
-
         const lastSelectedValues = { weightSliderValue, heightSliderValue, calculationResultValue };
         const str = JSON.stringify(lastSelectedValues);
 
