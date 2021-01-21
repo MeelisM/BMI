@@ -39,10 +39,7 @@
       document.getElementById('weight-slider').addEventListener('input', (event) => {
         const currentWeight = parseFloat(event.target.value);
         weightIndicatorElement.textContent = 'Kehakaal' + ' ' + currentWeight + ' ' + 'kg';
-        calculationResultElement.textContent = calculateBMI(
-          heightRangeSliderElement.value,
-          weightRangeSliderElement.value
-        );
+        calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value, weightRangeSliderElement.value);
 
         // TODO: persist slider current values in localStorage using one of the functions below
       });
@@ -50,10 +47,7 @@
       document.getElementById('height-slider').addEventListener('input', (event) => {
         const currentHeight = parseFloat(event.target.value);
         heightIndicatorElement.textContent = 'Pikkus' + ' ' + currentHeight + ' ' + 'cm';
-        calculationResultElement.textContent = calculateBMI(
-          heightRangeSliderElement.value,
-          weightRangeSliderElement.value
-        );
+        calculationResultElement.textContent = calculateBMI(heightRangeSliderElement.value, weightRangeSliderElement.value);
 
         // TODO: persist slider current values in localStorage using one of the functions below
       });
