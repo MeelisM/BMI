@@ -33,6 +33,7 @@
       const heightIndicatorElement = document.getElementById('height-indicator');
       const weightIndicatorElement = document.getElementById('weight-indicator');
       const calculationResultElement = document.getElementById('bmi-result');
+
       reloadRecentValuesFromLocalStorage();
 
       document.getElementById('weight-slider').addEventListener('input', (event) => {
@@ -74,8 +75,8 @@
         heightSliderValue = heightRangeSliderElement.value;
         weightSliderValue = weightRangeSliderElement.value;
 
-        let lastSelectedValues = { weightSliderValue, heightSliderValue, calculationResultValue };
-        let str = JSON.stringify(lastSelectedValues);
+        const lastSelectedValues = { weightSliderValue, heightSliderValue, calculationResultValue };
+        const str = JSON.stringify(lastSelectedValues);
 
         localStorage.setItem('lastSelectedValues', str);
       }
